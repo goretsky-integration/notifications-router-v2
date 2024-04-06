@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "notifications-router-v2"
+version = "1.0.0"
+description = "Notifications router"
+authors = ["Eldos <eldos.baktybekov@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "notifications_router_v2"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+faststream = {extras = ["rabbit"], version = "^0.4.7"}
+aiogram = "^3.4.1"
+httpx = "^0.27.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
