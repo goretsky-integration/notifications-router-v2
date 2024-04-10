@@ -1,0 +1,10 @@
+from enum import StrEnum
+
+__all__ = ('WriteOffType',)
+
+
+class WriteOffType(StrEnum):
+    EXPIRE_AT_15_MINUTES = 'EXPIRE_AT_15_MINUTES'
+    EXPIRE_AT_10_MINUTES = 'EXPIRE_AT_10_MINUTES'
+    EXPIRE_AT_5_MINUTES = 'EXPIRE_AT_5_MINUTES'
+    ALREADY_EXPIRED = 'ALREADY_EXPIRED'
