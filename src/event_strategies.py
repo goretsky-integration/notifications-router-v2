@@ -1,11 +1,11 @@
 from collections.abc import Callable
-from typing import TypeAlias, TypedDict
+from typing import Any, Protocol, TypeAlias, TypedDict
 
 from pydantic import BaseModel, TypeAdapter
 
-from enums import SpecificChatsEventType
-from models import SpecificChatsEvent, UnitLateDeliveryVouchers
-from views import render_late_delivery_vouchers
+from enums import EventType
+from models import UnitLateDeliveryVouchers, WriteOff
+from views import render_late_delivery_vouchers, render_write_off
 
 __all__ = (
     'SPECIFIC_CHATS_EVENT_STRATEGIES',
@@ -21,16 +21,25 @@ class SpecificChatsEventStrategy(TypedDict):
 
 
 SPECIFIC_CHATS_EVENT_STRATEGIES: (
-    dict[SpecificChatsEventType, SpecificChatsEventStrategy]
+    dict[EventType, SpecificChatsEventStrategy]
 ) = {
-    SpecificChatsEventType.LATE_DELIVERY_VOUCHERS: {
+    EventType.LATE_DELIVERY_VOUCHERS: {
         'renderer': render_late_delivery_vouchers,
         'model': TypeAdapter(list[UnitLateDeliveryVouchers]),
     },
+    EventType.WRITE_OFFS: {
+        'renderer': render_write_off,
+        'model': WriteOff,
+    }
 }
 
 
-def serialize_and_render(event: SpecificChatsEvent) -> str:
+class HasTypeAndPayload(Protocol):
+    type: EventType
+    payload: Any
+
+
+def serialize_and_render(event: HasTypeAndPayload) -> str:
     strategy = SPECIFIC_CHATS_EVENT_STRATEGIES[event.type]
 
     render = strategy['renderer']
