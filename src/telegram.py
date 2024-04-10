@@ -3,6 +3,7 @@ from collections.abc import Iterable
 
 from aiogram import Bot
 from aiogram.exceptions import (
+    TelegramBadRequest,
     TelegramNetworkError,
     TelegramRetryAfter,
     TelegramServerError,
@@ -21,6 +22,8 @@ async def try_to_send_message(
     for _ in range(attempts):
         try:
             await bot.send_message(chat_id, text)
+        except TelegramBadRequest:
+            pass
         except TelegramRetryAfter as error:
             await asyncio.sleep(error.retry_after + 1)
         except (TelegramNetworkError, TelegramServerError):
