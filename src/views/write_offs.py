@@ -5,16 +5,16 @@ __all__ = ('render_write_off',)
 
 write_off_type_to_template = {
     WriteOffType.EXPIRE_AT_15_MINUTES: (
-        'Списание ингредиента <b>{ingredient_name}</b> через 15 минут'
+        'Списание ингредиента <b>"{ingredient_name}"</b> через 15 минут'
     ),
     WriteOffType.EXPIRE_AT_10_MINUTES: (
-        'Списание ингредиента <b>{ingredient_name}</b> через 10 минут'
+        'Списание ингредиента <b>"{ingredient_name}"</b> через 10 минут'
     ),
     WriteOffType.EXPIRE_AT_5_MINUTES: (
-        'Списание ингредиента <b>{ingredient_name}</b> через 5 минут'
+        'Списание ингредиента <b>"{ingredient_name}"</b> через 5 минут'
     ),
     WriteOffType.ALREADY_EXPIRED: (
-        'В пиццерии просрочка ингредиента <b>{ingredient_name}</b>'
+        'В пиццерии просрочка ингредиента <b>"{ingredient_name}"</b>'
     ),
 }
 

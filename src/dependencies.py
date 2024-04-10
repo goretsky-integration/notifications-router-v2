@@ -26,6 +26,6 @@ async def get_units_storage_connection(
         config: Config = Depends(get_config, use_cache=True),
 ) -> UnitsStorageConnection:
     async with closing_units_storage_http_client(
-            base_url=config.units_storage_base_url,
+            base_url=str(config.units_storage_base_url),
     ) as http_client:
         yield UnitsStorageConnection(http_client)
