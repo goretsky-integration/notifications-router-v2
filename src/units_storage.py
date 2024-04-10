@@ -23,7 +23,7 @@ class UnitsStorageConnection:
 
     @cache  # Report types will never change
     async def get_report_type_by_name(self, name: str) -> ReportType:
-        url = f'/report-types/by-name/{name}/'
+        url = f'/report-types/names/{name}/'
         response = await self.__http_client.get(url)
         response_data = response.json()
         return ReportType.model_validate(response_data)
