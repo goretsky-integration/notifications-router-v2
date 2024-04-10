@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "notifications-router-v2"
-version = "1.0.0"
+version = "1.1.0"
 description = "Notifications router"
 authors = ["Eldos <eldos.baktybekov@gmail.com>"]
 license = "MIT"
