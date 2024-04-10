@@ -2,9 +2,11 @@ from aiogram import Bot
 from fast_depends import Depends
 from faststream.rabbit import RabbitRouter
 
-from dependencies import get_telegram_bot
+from dependencies import get_telegram_bot, get_units_storage_connection
 from event_strategies import serialize_and_render
 from models import GlobalEvent, SpecificChatsEvent, SpecificUnitsEvent
+from telegram import broadcast_message
+from units_storage import UnitsStorageConnection
 
 router = RabbitRouter()
 
@@ -13,8 +15,26 @@ router = RabbitRouter()
 async def on_specific_units_event(
         event: SpecificUnitsEvent,
         telegram_bot: Bot = Depends(get_telegram_bot, use_cache=True),
+        units_storage_connection: UnitsStorageConnection = Depends(
+            get_units_storage_connection,
+            use_cache=False,
+        ),
 ):
-    pass
+    rendered_text = serialize_and_render(event)
+
+    for unit_id in event.unit_ids:
+        report_type = await units_storage_connection.get_report_type_by_name(
+            name=event.type,
+        )
+        chat_ids = await units_storage_connection.get_routes_telegram_chat_ids(
+            unit_id=unit_id,
+            report_type_id=report_type.id,
+        )
+        await broadcast_message(
+            bot=telegram_bot,
+            chat_ids=chat_ids,
+            text=rendered_text,
+        )
 
 
 @router.subscriber('specific-chats-event')
@@ -23,12 +43,11 @@ async def on_specific_chats_event(
         telegram_bot: Bot = Depends(get_telegram_bot, use_cache=False),
 ):
     rendered_text = serialize_and_render(event)
-
-    for chat_id in event.chat_ids:
-        await telegram_bot.send_message(
-            chat_id=chat_id,
-            text=rendered_text,
-        )
+    await broadcast_message(
+        bot=telegram_bot,
+        chat_ids=event.chat_ids,
+        text=rendered_text,
+    )
 
 
 @router.subscriber('global-event')
