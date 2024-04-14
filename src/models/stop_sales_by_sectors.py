@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, conlist
 
 __all__ = ('StopSaleBySector', 'UnitStopSalesBySectors')
 
@@ -12,4 +12,4 @@ class StopSaleBySector(BaseModel):
 
 class UnitStopSalesBySectors(BaseModel):
     unit_name: str
-    stop_sales: tuple[StopSaleBySector, ...]
+    stop_sales: conlist(StopSaleBySector, min_length=1)
