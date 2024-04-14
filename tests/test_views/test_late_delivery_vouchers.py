@@ -2,7 +2,7 @@ import textwrap
 
 from tests.factories import UnitLateDeliveryVouchersFactory
 from views.late_delivery_vouchers import (
-    render_late_delivery_vouchers,
+    LateDeliveryVouchersView,
     sort_late_delivery_vouchers,
 )
 
@@ -43,6 +43,6 @@ def test_render_late_delivery_vouchers() -> None:
         <b>Сертификаты за опоздание (сегодня) | (неделю назад)</b>
         {unit_vouchers.unit_name} | {unit_vouchers.certificates_count_today} шт | {unit_vouchers.certificates_count_week_before} шт""")
 
-    actual = render_late_delivery_vouchers([unit_vouchers])
+    actual = LateDeliveryVouchersView([unit_vouchers]).get_text()
 
     assert actual == expected
