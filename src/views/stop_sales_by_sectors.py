@@ -1,10 +1,10 @@
 from models import UnitStopSalesBySectors
 from views.base import View
 
-__all__ = ('UnitStopSaleBySectorsView',)
+__all__ = ('UnitStopSalesBySectorsView',)
 
 
-class UnitStopSaleBySectorsView(View):
+class UnitStopSalesBySectorsView(View):
 
     def __init__(self, unit_stop_sales_by_sectors: UnitStopSalesBySectors):
         self.__unit_stop_sales_by_sectors = unit_stop_sales_by_sectors
