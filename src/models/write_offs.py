@@ -9,3 +9,4 @@ class WriteOff(BaseModel):
     unit_name: str
     type: WriteOffType
     ingredient_name: str
+    checkbox_a1_coordinates: str

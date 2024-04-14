@@ -1,7 +1,11 @@
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+from callback_data import WriteOffCallbackData
 from enums import WriteOffType
 from models import WriteOff
+from views.base import View
 
-__all__ = ('render_write_off',)
+__all__ = ('WriteOffView',)
 
 write_off_type_to_template = {
     WriteOffType.EXPIRE_AT_15_MINUTES: (
@@ -19,12 +23,28 @@ write_off_type_to_template = {
 }
 
 
-def render_write_off(write_off: WriteOff) -> str:
-    template = write_off_type_to_template[write_off.type]
-    event_description = template.format(
-        ingredient_name=write_off.ingredient_name,
-    )
-    return (
-        f'<b>❗️ {write_off.unit_name} ❗️</b>\n'
-        f'{event_description}'
-    )
+class WriteOffView(View):
+
+    def __init__(self, write_off: WriteOff):
+        self.__write_off = write_off
+
+    def get_text(self) -> str:
+        template = write_off_type_to_template[self.__write_off.type]
+        event_description = template.format(
+            ingredient_name=self.__write_off.ingredient_name,
+        )
+        return (
+            f'<b>❗️ {self.__write_off.unit_name} ❗️</b>\n'
+            f'{event_description}'
+        )
+
+    def get_reply_markup(self) -> InlineKeyboardMarkup:
+        write_off_button_callback_data = WriteOffCallbackData(
+            unit_name=self.__write_off.unit_name,
+            checkbox_a1_coordinates=self.__write_off.checkbox_a1_coordinates,
+        ).pack()
+        write_off_button = InlineKeyboardButton(
+            text='🗑️ Списать ингредиент',
+            callback_data=write_off_button_callback_data,
+        )
+        return InlineKeyboardMarkup(inline_keyboard=[[write_off_button]])

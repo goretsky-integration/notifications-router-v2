@@ -3,7 +3,7 @@ from fast_depends import Depends
 from faststream.rabbit import RabbitRouter
 
 from dependencies import get_telegram_bot, get_units_storage_connection
-from event_strategies import serialize_and_render
+from event_strategies import serialize_and_get_view
 from models import GlobalEvent, SpecificChatsEvent, SpecificUnitsEvent
 from telegram import broadcast_message
 from units_storage import UnitsStorageConnection
@@ -20,7 +20,7 @@ async def on_specific_units_event(
             use_cache=False,
         ),
 ):
-    rendered_text = serialize_and_render(event)
+    view = serialize_and_get_view(event)
 
     for unit_id in event.unit_ids:
         report_type = await units_storage_connection.get_report_type_by_name(
@@ -33,7 +33,7 @@ async def on_specific_units_event(
         await broadcast_message(
             bot=telegram_bot,
             chat_ids=chat_ids,
-            text=rendered_text,
+            view=view,
         )
 
 
@@ -42,11 +42,11 @@ async def on_specific_chats_event(
         event: SpecificChatsEvent,
         telegram_bot: Bot = Depends(get_telegram_bot, use_cache=False),
 ):
-    rendered_text = serialize_and_render(event)
+    view = serialize_and_get_view(event)
     await broadcast_message(
         bot=telegram_bot,
         chat_ids=event.chat_ids,
-        text=rendered_text,
+        view=view,
     )
 
 

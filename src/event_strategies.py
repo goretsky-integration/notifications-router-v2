@@ -1,22 +1,25 @@
-from collections.abc import Callable
-from typing import Any, Protocol, TypeAlias, TypedDict
+from typing import Any, Protocol, TypedDict
 
 from pydantic import BaseModel, TypeAdapter
 
 from enums import EventType
 from models import UnitLateDeliveryVouchers, WriteOff
-from views import render_late_delivery_vouchers, render_write_off
+from views import LateDeliveryVouchersView, WriteOffView
+from views.base import View
 
 __all__ = (
     'SPECIFIC_CHATS_EVENT_STRATEGIES',
-    'serialize_and_render',
+    'serialize_and_get_view',
 )
 
-Renderer: TypeAlias = Callable[[...], str]
+
+class ReceivesArbitraryArguments(Protocol):
+
+    def __init__(self, *args, **kwargs): ...
 
 
 class SpecificChatsEventStrategy(TypedDict):
-    renderer: Renderer
+    view: type[View | ReceivesArbitraryArguments]
     model: BaseModel | TypeAdapter
 
 
@@ -24,11 +27,11 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
     dict[EventType, SpecificChatsEventStrategy]
 ) = {
     EventType.LATE_DELIVERY_VOUCHERS: {
-        'renderer': render_late_delivery_vouchers,
+        'view': LateDeliveryVouchersView,
         'model': TypeAdapter(list[UnitLateDeliveryVouchers]),
     },
     EventType.WRITE_OFFS: {
-        'renderer': render_write_off,
+        'view': WriteOffView,
         'model': WriteOff,
     }
 }
@@ -39,10 +42,10 @@ class HasTypeAndPayload(Protocol):
     payload: Any
 
 
-def serialize_and_render(event: HasTypeAndPayload) -> str:
+def serialize_and_get_view(event: HasTypeAndPayload) -> View:
     strategy = SPECIFIC_CHATS_EVENT_STRATEGIES[event.type]
 
-    render = strategy['renderer']
+    view = strategy['view']
     model = strategy['model']
 
     if isinstance(model, TypeAdapter):
@@ -50,4 +53,4 @@ def serialize_and_render(event: HasTypeAndPayload) -> str:
     else:
         payload = model.model_validate(event.payload)
 
-    return render(payload)
+    return view(payload)

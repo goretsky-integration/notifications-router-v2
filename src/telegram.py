@@ -9,6 +9,8 @@ from aiogram.exceptions import (
     TelegramServerError,
 )
 
+from views.base import ReplyMarkup, View
+
 __all__ = ('try_to_send_message', 'broadcast_message')
 
 
@@ -17,11 +19,12 @@ async def try_to_send_message(
         chat_id: int,
         text: str,
         *,
+        reply_markup: ReplyMarkup | None = None,
         attempts: int = 5
 ) -> None:
     for _ in range(attempts):
         try:
-            await bot.send_message(chat_id, text)
+            await bot.send_message(chat_id, text, reply_markup=reply_markup)
         except TelegramBadRequest:
             pass
         except TelegramRetryAfter as error:
@@ -35,11 +38,19 @@ async def try_to_send_message(
 async def broadcast_message(
         bot: Bot,
         chat_ids: Iterable[int],
-        text: str,
+        view: View,
         *,
         attempts: int = 5
 ) -> None:
+    text = view.get_text()
+    reply_markup = view.get_reply_markup()
     for chat_id in chat_ids:
-        await try_to_send_message(bot, chat_id, text, attempts=attempts)
+        await try_to_send_message(
+            bot,
+            chat_id,
+            text,
+            reply_markup=reply_markup,
+            attempts=attempts,
+        )
         # Due to Telegram API limits (30 messages per second)
         await asyncio.sleep(0.5)
