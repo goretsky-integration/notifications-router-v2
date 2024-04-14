@@ -44,7 +44,7 @@ class WriteOffView(View):
             checkbox_a1_coordinates=self.__write_off.checkbox_a1_coordinates,
         ).pack()
         write_off_button = InlineKeyboardButton(
-            text='🗑️ Списать ингредиент',
+            text='🗑️ Ингредиент списан',
             callback_data=write_off_button_callback_data,
         )
         return InlineKeyboardMarkup(inline_keyboard=[[write_off_button]])
