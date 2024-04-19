@@ -329,35 +329,35 @@ pydantic = ">=1.7.4,<1.8 || >1.8,<1.8.1 || >1.8.1,<3.0.0"
 
 [[package]]
 name = "faststream"
-version = "0.4.7"
+version = "0.5.2"
 description = "FastStream: the simplest way to work with a messaging queues"
 category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "faststream-0.4.7-py3-none-any.whl", hash = "sha256:2f35bc1cf236807a93a078b79018a4a6e4636b5581fd9a91bd3b511dddc854ba"},
-    {file = "faststream-0.4.7.tar.gz", hash = "sha256:f404c1f350dee5742ce64c111526a80e0d984ce7964a04d0f2ec71beb7d982de"},
+    {file = "faststream-0.5.2-py3-none-any.whl", hash = "sha256:716b2b04a8a3fe2bb73fdf0dbf1afa82b7fd02a412a6f27d0bd09a2cfa0fcf95"},
+    {file = "faststream-0.5.2.tar.gz", hash = "sha256:d363c0aaaa3e8528a39c25cfc8eeaca0c9812aab83aba03ba6c0d9addfe20b31"},
 ]
 
 [package.dependencies]
 aio-pika = {version = ">=9,<10", optional = true, markers = "extra == \"rabbit\""}
 anyio = ">=3.7.1,<5"
 fast-depends = ">=2.4.0b0,<2.5.0"
-typer = ">=0.9,<1"
+typer = ">=0.9,<0.12 || >0.12,<1"
 typing-extensions = ">=4.8.0"
 
 [package.extras]
 confluent = ["confluent-kafka (>=2,<3)"]
-dev = ["detect-secrets (==1.4.0)", "faststream[confluent,devdocs,docs,kafka,lint,nats,rabbit,redis,testing]", "pre-commit (==3.5.0)", "pre-commit (==3.6.2)"]
-devdocs = ["black (==24.1.1)", "cairosvg (==2.7.1)", "mdx-include (==1.4.2)", "mike (==2.0.0)", "mkdocs-git-revision-date-localized-plugin (==1.2.4)", "mkdocs-glightbox (==0.3.7)", "mkdocs-literate-nav (==0.6.1)", "mkdocs-macros-plugin (==1.0.5)", "mkdocs-material (==9.5.11)", "mkdocs-minify-plugin (==0.8.0)", "mkdocs-static-i18n (==1.2.0)", "mkdocstrings[python] (==0.24.1)", "pillow (==10.2.0)", "requests"]
-docs = ["fastapi (>=0.100.0,<1.0.0)", "uvicorn (>=0.17.0,<1.0.0)"]
+dev = ["aio-pika (>=9,<10)", "aiokafka (>=0.9,<0.11)", "bandit (==1.7.8)", "cairosvg", "codespell (==2.2.6)", "confluent-kafka (>=2,<3)", "confluent-kafka-stubs", "coverage[toml] (==7.4.4)", "detect-secrets (==1.4.0)", "dirty-equals (==0.7.1.post0)", "email-validator (==2.1.1)", "fastapi (==0.110.1)", "griffe-typingdoc (==0.2.5)", "httpx (==0.27.0)", "mdx-include (==1.4.2)", "mike (==2.0.0)", "mkdocs-git-revision-date-localized-plugin (==1.2.4)", "mkdocs-glightbox (==0.3.7)", "mkdocs-literate-nav (==0.6.1)", "mkdocs-macros-plugin (==1.0.5)", "mkdocs-material (==9.5.17)", "mkdocs-minify-plugin (==0.8.0)", "mkdocs-static-i18n (==1.2.2)", "mkdocstrings[python] (==0.24.3)", "mypy (==1.9.0)", "nats-py (>=2.3.1,<=3.0.0)", "pillow", "pre-commit (==3.5.0)", "pre-commit (==3.7.0)", "pydantic-settings (>=2.0.0,<3.0.0)", "pytest (==8.1.1)", "pytest-asyncio (==0.23.6)", "pyyaml (==6.0.1)", "redis (>=5.0.0,<6.0.0)", "requests", "ruff (==0.3.7)", "semgrep (==1.68.0)", "types-docutils", "types-pygments", "types-pyyaml", "types-redis", "types-setuptools", "types-ujson", "watchfiles (==0.21.0)"]
+devdocs = ["cairosvg", "griffe-typingdoc (==0.2.5)", "mdx-include (==1.4.2)", "mike (==2.0.0)", "mkdocs-git-revision-date-localized-plugin (==1.2.4)", "mkdocs-glightbox (==0.3.7)", "mkdocs-literate-nav (==0.6.1)", "mkdocs-macros-plugin (==1.0.5)", "mkdocs-material (==9.5.17)", "mkdocs-minify-plugin (==0.8.0)", "mkdocs-static-i18n (==1.2.2)", "mkdocstrings[python] (==0.24.3)", "pillow", "requests"]
 kafka = ["aiokafka (>=0.9,<0.11)"]
-lint = ["bandit (==1.7.7)", "confluent-kafka-stubs", "mypy (==1.8.0)", "ruff (==0.3.0)", "semgrep (==1.62.0)", "types-docutils", "types-pygments", "types-pyyaml", "types-redis", "types-setuptools", "types-ujson"]
-nats = ["nats-py (>=2.3.1,<=2.7.0)"]
+lint = ["aio-pika (>=9,<10)", "aiokafka (>=0.9,<0.11)", "bandit (==1.7.8)", "codespell (==2.2.6)", "confluent-kafka (>=2,<3)", "confluent-kafka-stubs", "mypy (==1.9.0)", "nats-py (>=2.3.1,<=3.0.0)", "redis (>=5.0.0,<6.0.0)", "ruff (==0.3.7)", "semgrep (==1.68.0)", "types-docutils", "types-pygments", "types-pyyaml", "types-redis", "types-setuptools", "types-ujson"]
+nats = ["nats-py (>=2.3.1,<=3.0.0)"]
 rabbit = ["aio-pika (>=9,<10)"]
 redis = ["redis (>=5.0.0,<6.0.0)"]
-test-core = ["coverage[toml] (==7.4.3)", "dirty-equals (==0.7.1.post0)", "pytest (==8.0.1)", "pytest-asyncio (==0.23.5)", "pytest-rerunfailures (==13.0)", "pytest-timeout (==2.2.0)"]
-testing = ["email-validator (==2.1.1)", "fastapi (==0.109.2)", "faststream[test-core]", "httpx (==0.27.0)", "pydantic-settings (>=2.0.0,<3.0.0)", "pyyaml (==6.0.1)", "watchfiles (==0.21.0)"]
+test-core = ["coverage[toml] (==7.4.4)", "dirty-equals (==0.7.1.post0)", "pytest (==8.1.1)", "pytest-asyncio (==0.23.6)"]
+testing = ["coverage[toml] (==7.4.4)", "dirty-equals (==0.7.1.post0)", "email-validator (==2.1.1)", "fastapi (==0.110.1)", "httpx (==0.27.0)", "pydantic-settings (>=2.0.0,<3.0.0)", "pytest (==8.1.1)", "pytest-asyncio (==0.23.6)", "pyyaml (==6.0.1)", "watchfiles (==0.21.0)"]
+types = ["aio-pika (>=9,<10)", "aiokafka (>=0.9,<0.11)", "confluent-kafka (>=2,<3)", "confluent-kafka-stubs", "mypy (==1.9.0)", "nats-py (>=2.3.1,<=3.0.0)", "redis (>=5.0.0,<6.0.0)", "types-docutils", "types-pygments", "types-pyyaml", "types-redis", "types-setuptools", "types-ujson"]
 
 [[package]]
 name = "frozenlist"
@@ -1222,4 +1222,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "497c4c78100a4a43fe18a2dc5f0b440ef01cc7beddfcb1b9b1f403e5b3f9ae56"
+content-hash = "ddaef7bb5641bb08f737d0b53924be6e1eeb6e0ae15c4df8d6667241319fe4ee"
