@@ -10,6 +10,7 @@ __all__ = (
     'abbreviate_time_units',
     'compute_duration',
     'humanize_stop_sale_duration',
+    'is_urgent',
 )
 
 MINUTE_IN_SECONDS: Final[int] = 60
@@ -55,3 +56,7 @@ def humanize_stop_sale_duration(duration: timedelta) -> str:
         kwargs = {'format': '%0.0f', 'minimum_unit': 'seconds'}
 
     return abbreviate_time_units(humanize.precisedelta(duration, **kwargs))
+
+
+def is_urgent(duration: timedelta) -> bool:
+    return duration.total_seconds() >= MINUTE_IN_SECONDS * 30
