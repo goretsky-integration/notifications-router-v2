@@ -1,12 +1,22 @@
 import sentry_sdk
-from fast_depends import Depends
+import structlog
+from fast_depends import Depends, inject
 from faststream import FastStream
 from faststream.rabbit import RabbitBroker
 
 from config import Config, get_config
 from handlers import router
+from logger import init_logging
+
+logger = structlog.get_logger('app')
 
 
+def on_startup() -> None:
+    init_logging()
+    init_sentry()
+
+
+@inject
 def init_sentry(config: Config = Depends(get_config, use_cache=True)) -> None:
     if config.sentry.is_enabled:
         sentry_sdk.init(
@@ -16,7 +26,7 @@ def init_sentry(config: Config = Depends(get_config, use_cache=True)) -> None:
         )
 
 
-broker = RabbitBroker('amqp://localhost:5672/')
-app = FastStream(broker)
-app.on_startup(init_sentry)
+broker = RabbitBroker('amqp://localhost:5672/', logger=logger)
+app = FastStream(broker, logger=logger)
+app.on_startup(on_startup)
 broker.include_router(router)
