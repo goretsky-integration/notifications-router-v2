@@ -3,8 +3,12 @@ from typing import Any, Protocol, TypedDict
 from pydantic import BaseModel, TypeAdapter
 
 from enums import EventType
-from models import UnitLateDeliveryVouchers, WriteOff
-from views import LateDeliveryVouchersView, WriteOffView
+from models import UnitInventoryStockItems, UnitLateDeliveryVouchers, WriteOff
+from views import (
+    LateDeliveryVouchersView,
+    UnitInventoryStockItemsView,
+    WriteOffView,
+)
 from views.base import View
 
 __all__ = (
@@ -33,7 +37,11 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
     EventType.WRITE_OFFS: {
         'view': WriteOffView,
         'model': WriteOff,
-    }
+    },
+    EventType.STOPS_AND_RESUMES: {
+        'view': UnitInventoryStockItemsView,
+        'model': UnitInventoryStockItems,
+    },
 }
 
 
