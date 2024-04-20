@@ -7,6 +7,7 @@ from aiogram.exceptions import (
     TelegramNetworkError,
     TelegramRetryAfter,
     TelegramServerError,
+    TelegramMigrateToChat
 )
 from structlog.contextvars import bound_contextvars
 from structlog.stdlib import get_logger
@@ -38,6 +39,12 @@ async def try_to_send_message(
                     retry_after=error.retry_after,
                 )
                 await asyncio.sleep(error.retry_after + 1)
+            except TelegramMigrateToChat as error:
+                logger.warning(
+                    'Could not send message: Telegram Migrate To Chat',
+                    migrate_to_chat_id=error.migrate_to_chat_id,
+                    from_chat_id=chat_id,
+                )
             except (TelegramNetworkError, TelegramServerError):
                 logger.warning(
                     'Could not send message:'
