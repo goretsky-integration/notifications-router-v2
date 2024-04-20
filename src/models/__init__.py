@@ -1,4 +1,5 @@
 from .events import *
+from .inventory_stock_items import *
 from .late_delivery_vouchers import *
 from .report_types import *
 from .shop_sales_by_sales_channels import *
