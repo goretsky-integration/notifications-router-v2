@@ -22,7 +22,7 @@ ReplyMarkup: TypeAlias = (
 
 class View:
     text: str | None = None
-    reply_markup: ReplyMarkup
+    reply_markup: ReplyMarkup | None = None
 
     def get_text(self) -> str | None:
         return self.text
