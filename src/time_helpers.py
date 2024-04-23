@@ -11,6 +11,7 @@ __all__ = (
     'compute_duration',
     'humanize_stop_sale_duration',
     'is_urgent',
+    'humanize_seconds',
 )
 
 MINUTE_IN_SECONDS: Final[int] = 60
@@ -60,3 +61,34 @@ def humanize_stop_sale_duration(duration: timedelta) -> str:
 
 def is_urgent(duration: timedelta) -> bool:
     return duration.total_seconds() >= MINUTE_IN_SECONDS * 30
+
+
+def humanize_seconds(seconds: int) -> str:
+    """Humanize time in seconds.
+
+    Examples:
+        >>> humanize_seconds(60)
+        '01:00'
+        >>> humanize_seconds(0)
+        '00:00'
+        >>> humanize_seconds(3600)
+        '01:00:00'
+        >>> humanize_seconds(9000000)
+        '+99:59:59'
+
+    Args:
+        seconds: Time in seconds.
+
+    Returns:
+        Humanized time in HH:MM:SS or MM:SS format.
+        If there are over 100 hours (359999 seconds), returns "+99:59:59".
+    """
+    if seconds > 359999:
+        return '+99:59:59'
+    minutes = seconds // 60
+    seconds %= 60
+    hours = minutes // 60
+    minutes %= 60
+    if not hours:
+        return f'{minutes:02}:{seconds:02}'
+    return f'{hours:02}:{minutes:02}:{seconds:02}'
