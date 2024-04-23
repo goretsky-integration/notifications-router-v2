@@ -4,15 +4,16 @@ from pydantic import BaseModel, TypeAdapter
 
 from enums import EventType
 from models import (
-    UnitDeliverySpeedStatistics, 
-    UnitInventoryStockItems, 
-    UnitLateDeliveryVouchers, 
+    UnitDeliverySpeedStatistics,
+    UnitInventoryStockItems,
+    UnitLateDeliveryVouchers,
     WriteOff,
 )
 from views import (
+    DeliverySpeedStatisticsView,
     LateDeliveryVouchersView,
     UnitInventoryStockItemsView,
-    DeliverySpeedStatisticsView,
+    WriteOffView,
 )
 from views.base import View
 
