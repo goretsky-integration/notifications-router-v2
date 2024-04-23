@@ -1,21 +1,42 @@
 from datetime import datetime
 from typing import Protocol, TypeVar
 
-__all__ = ('sort_by_created_at_descending_order',)
+__all__ = (
+    'sort_by_created_at_descending_order',
+    'sort_by_average_delivery_order_fulfillment_time',
+)
 
 
 class HasCreatedAt(Protocol):
     started_at: datetime
 
 
+class HasAverageDeliveryOrderFulfillmentTimeInSeconds(Protocol):
+    average_delivery_order_fulfillment_time_in_seconds: int
+
+
 HasStartedAtT = TypeVar('HasStartedAtT', bound=HasCreatedAt)
-
-
-def get_started_at(item: HasStartedAtT) -> datetime:
-    return item.started_at
+HasAverageDeliveryOrderFulfillmentTimeInSecondsT = TypeVar(
+    'HasAverageDeliveryOrderFulfillmentTimeInSecondsT',
+    bound=HasAverageDeliveryOrderFulfillmentTimeInSeconds,
+)
 
 
 def sort_by_created_at_descending_order(
         items: list[HasStartedAtT],
 ) -> list[HasStartedAtT]:
-    return sorted(items, key=get_started_at, reverse=True)
+    return sorted(items, key=lambda item: item.started_at, reverse=True)
+
+
+def sort_by_average_delivery_order_fulfillment_time(
+        items: list[HasAverageDeliveryOrderFulfillmentTimeInSecondsT],
+        *,
+        reverse: bool = False,
+) -> list[HasAverageDeliveryOrderFulfillmentTimeInSecondsT]:
+    return sorted(
+        items,
+        key=lambda item: (
+            item.average_delivery_order_fulfillment_time_in_seconds
+        ),
+        reverse=reverse,
+    )

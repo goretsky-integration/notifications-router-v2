@@ -1,3 +1,4 @@
+from .delivery_speed import *
 from .events import *
 from .inventory_stock_items import *
 from .late_delivery_vouchers import *
