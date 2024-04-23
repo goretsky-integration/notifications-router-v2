@@ -4,12 +4,15 @@ from pydantic import BaseModel, TypeAdapter
 
 from enums import EventType
 from models import (
-    UnitDeliverySpeedStatistics, UnitLateDeliveryVouchers,
+    UnitDeliverySpeedStatistics, 
+    UnitInventoryStockItems, 
+    UnitLateDeliveryVouchers, 
     WriteOff,
 )
 from views import (
-    DeliverySpeedStatisticsView, LateDeliveryVouchersView,
-    WriteOffView,
+    LateDeliveryVouchersView,
+    UnitInventoryStockItemsView,
+    DeliverySpeedStatisticsView,
 )
 from views.base import View
 
@@ -43,6 +46,10 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
     EventType.DELIVERY_SPEED: {
         'view': DeliverySpeedStatisticsView,
         'model': TypeAdapter(list[UnitDeliverySpeedStatistics]),
+    },
+    EventType.STOPS_AND_RESUMES: {
+        'view': UnitInventoryStockItemsView,
+        'model': UnitInventoryStockItems,
     },
 }
 
