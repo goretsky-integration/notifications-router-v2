@@ -31,8 +31,11 @@ async def try_to_send_message(
         for _ in range(attempts):
             try:
                 await bot.send_message(chat_id, text, reply_markup=reply_markup)
-            except TelegramBadRequest:
-                logger.warning('Could not send message: Telegram Bad Request')
+            except TelegramBadRequest as error:
+                logger.error(
+                    'Could not send message: Telegram Bad Request',
+                    error_message=str(error),
+                )
             except TelegramRetryAfter as error:
                 logger.warning(
                     'Could not send message: Telegram Retry After',
