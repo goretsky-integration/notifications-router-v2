@@ -1,6 +1,24 @@
 from typing import Final
 
-__all__ = ('abbreviate_unit_name', 'ERROR_CODE_TO_MESSAGE')
+__all__ = ('abbreviate_unit_name', 'ERROR_CODE_TO_MESSAGE', 'int_gaps')
+
+
+def int_gaps(number: int) -> str:
+    """Add gaps to integer number.
+
+    Examples:
+        >>> int_gaps(123456789)
+        '123 456 789'
+        >>> int_gaps(123)
+        '123'
+
+    Args:
+        number: Integer number.
+
+    Returns:
+        Integer number with gaps.
+    """
+    return '{:,}'.format(number).replace(',', ' ')
 
 
 def abbreviate_unit_name(unit_name: str) -> str:
