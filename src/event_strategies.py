@@ -4,6 +4,7 @@ from pydantic import BaseModel, TypeAdapter
 
 from enums import EventType
 from models import (
+    RevenueStatistics,
     UnitCanceledOrders,
     UnitDeliverySpeedStatistics,
     UnitInventoryStockItems,
@@ -13,6 +14,7 @@ from models import (
 from views import (
     DeliverySpeedStatisticsView,
     LateDeliveryVouchersView,
+    RevenueStatisticsView,
     UnitCanceledOrdersView,
     UnitInventoryStockItemsView,
     WriteOffView,
@@ -57,6 +59,10 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
     EventType.CANCELED_ORDERS: {
         'view': UnitCanceledOrdersView,
         'model': UnitCanceledOrders,
+    },
+    EventType.REVENUE_STATISTICS: {
+        'view': RevenueStatisticsView,
+        'model': RevenueStatistics,
     },
 }
 
