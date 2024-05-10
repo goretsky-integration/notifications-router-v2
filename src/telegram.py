@@ -9,6 +9,7 @@ from aiogram.exceptions import (
     TelegramRetryAfter,
     TelegramServerError,
     TelegramMigrateToChat,
+    TelegramForbiddenError
 )
 from structlog.contextvars import bound_contextvars
 
@@ -31,11 +32,14 @@ async def try_to_send_message(
         for _ in range(attempts):
             try:
                 await bot.send_message(chat_id, text, reply_markup=reply_markup)
+            except TelegramForbiddenError:
+                pass
             except TelegramBadRequest as error:
-                logger.error(
-                    'Could not send message: Telegram Bad Request',
-                    error_message=str(error),
-                )
+                if error.message != 'Bad Request: chat not found':
+                    logger.error(
+                        'Could not send message: Telegram Bad Request',
+                        error_message=str(error),
+                    )
             except TelegramRetryAfter as error:
                 logger.warning(
                     'Could not send message: Telegram Retry After',
