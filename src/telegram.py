@@ -48,7 +48,7 @@ async def try_to_send_message(
                     migrate_to_chat_id=error.migrate_to_chat_id,
                     from_chat_id=chat_id,
                 )
-            except (TelegramNetworkError, TelegramServerError):
+            except (TelegramNetworkError, TelegramServerError) as error:
                 logger.warning(
                     'Could not send message:'
                     ' Telegram Network Error or Server Error',
