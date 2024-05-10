@@ -1,22 +1,22 @@
 import asyncio
 from collections.abc import Iterable
 
+import structlog.stdlib
 from aiogram import Bot
 from aiogram.exceptions import (
     TelegramBadRequest,
     TelegramNetworkError,
     TelegramRetryAfter,
     TelegramServerError,
-    TelegramMigrateToChat
+    TelegramMigrateToChat,
 )
 from structlog.contextvars import bound_contextvars
-from structlog.stdlib import get_logger
 
 from views.base import ReplyMarkup, View
 
 __all__ = ('try_to_send_message', 'broadcast_message')
 
-logger = get_logger('app')
+logger = structlog.stdlib.get_logger('app')
 
 
 async def try_to_send_message(
