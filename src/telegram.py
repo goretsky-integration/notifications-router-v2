@@ -1,22 +1,23 @@
 import asyncio
 from collections.abc import Iterable
 
+import structlog.stdlib
 from aiogram import Bot
 from aiogram.exceptions import (
     TelegramBadRequest,
     TelegramNetworkError,
     TelegramRetryAfter,
     TelegramServerError,
-    TelegramMigrateToChat
+    TelegramMigrateToChat,
+    TelegramForbiddenError
 )
 from structlog.contextvars import bound_contextvars
-from structlog.stdlib import get_logger
 
 from views.base import ReplyMarkup, View
 
 __all__ = ('try_to_send_message', 'broadcast_message')
 
-logger = get_logger('app')
+logger = structlog.stdlib.get_logger('app')
 
 
 async def try_to_send_message(
@@ -31,11 +32,14 @@ async def try_to_send_message(
         for _ in range(attempts):
             try:
                 await bot.send_message(chat_id, text, reply_markup=reply_markup)
+            except TelegramForbiddenError:
+                pass
             except TelegramBadRequest as error:
-                logger.error(
-                    'Could not send message: Telegram Bad Request',
-                    error_message=str(error),
-                )
+                if error.message != 'Bad Request: chat not found':
+                    logger.error(
+                        'Could not send message: Telegram Bad Request',
+                        error_message=str(error),
+                    )
             except TelegramRetryAfter as error:
                 logger.warning(
                     'Could not send message: Telegram Retry After',
@@ -48,7 +52,7 @@ async def try_to_send_message(
                     migrate_to_chat_id=error.migrate_to_chat_id,
                     from_chat_id=chat_id,
                 )
-            except (TelegramNetworkError, TelegramServerError):
+            except (TelegramNetworkError, TelegramServerError) as error:
                 logger.warning(
                     'Could not send message:'
                     ' Telegram Network Error or Server Error',
