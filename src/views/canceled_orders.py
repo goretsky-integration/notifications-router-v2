@@ -65,7 +65,7 @@ def render_canceled_order(
         order_id=order.id,
     )
 
-    if not order.has_printed_receipt:
+    if not order.is_refund_receipt_printed:
         lines.append('<b>❗️ Пока без чека ❗️</b>')
 
     lines.append(
