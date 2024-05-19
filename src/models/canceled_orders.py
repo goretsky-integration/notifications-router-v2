@@ -12,7 +12,7 @@ class CanceledOrder(BaseModel):
     number: str
     price: int
     sales_channel: SalesChannel
-    has_printed_receipt: bool
+    is_refund_receipt_printed: bool
 
 
 class UnitCanceledOrders(BaseModel):
