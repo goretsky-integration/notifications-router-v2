@@ -47,7 +47,7 @@ def sort_orders_by_printed_receipt(
 ) -> list[CanceledOrder]:
     return sorted(
         orders,
-        key=operator.attrgetter('has_printed_receipt'),
+        key=operator.attrgetter('is_refund_receipt_printed'),
         reverse=True,
     )
 
