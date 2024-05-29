@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, conlist
 
 __all__ = ('CheatedOrder', 'UnitCheatedOrders')
 
@@ -13,4 +13,4 @@ class CheatedOrder(BaseModel):
 class UnitCheatedOrders(BaseModel):
     unit_name: str
     phone_number: str
-    orders: list[CheatedOrder]
+    orders: conlist(CheatedOrder, min_length=3)
