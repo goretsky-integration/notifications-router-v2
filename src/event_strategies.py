@@ -6,12 +6,14 @@ from enums import EventType
 from models import (
     RevenueStatistics,
     UnitCanceledOrders,
+    UnitCheatedOrders,
     UnitDeliverySpeedStatistics,
     UnitInventoryStockItems,
     UnitLateDeliveryVouchers,
     WriteOff,
 )
 from views import (
+    CheatedPhoneNumbersView,
     DeliverySpeedStatisticsView,
     LateDeliveryVouchersView,
     RevenueStatisticsView,
@@ -63,6 +65,10 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
     EventType.REVENUE_STATISTICS: {
         'view': RevenueStatisticsView,
         'model': RevenueStatistics,
+    },
+    EventType.CHEATED_PHONE_NUMBERS: {
+        'view': CheatedPhoneNumbersView,
+        'model': UnitCheatedOrders,
     },
 }
 
