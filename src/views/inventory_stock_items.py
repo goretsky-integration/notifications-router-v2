@@ -1,7 +1,15 @@
+from enums import MeasurementUnit
 from models import UnitInventoryStockItems
 from views.base import View
 
 __all__ = ('UnitInventoryStockItemsView',)
+
+MEASUREMENT_UNIT_TO_TEXT = {
+    MeasurementUnit.QUANTITY: 'шт',
+    MeasurementUnit.KILOGRAM: 'кг',
+    MeasurementUnit.LITER: 'л',
+    MeasurementUnit.METER: 'м',
+}
 
 
 class UnitInventoryStockItemsView(View):
@@ -20,9 +28,12 @@ class UnitInventoryStockItemsView(View):
             lines.append('<b>На сегодня всего достаточно</b>')
 
         for inventory_stock_item in inventory_stock_items:
+            measurement_unit_text = (
+                MEASUREMENT_UNIT_TO_TEXT[inventory_stock_item.measurement_unit]
+            )
             lines.append(
                 f'📍 {inventory_stock_item.name} - остаток'
                 f' <b><u>{inventory_stock_item.quantity}'
-                f' {inventory_stock_item.measurement_unit}</u></b>')
+                f' {measurement_unit_text}</u></b>')
 
         return '\n'.join(lines)
