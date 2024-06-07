@@ -1,12 +1,14 @@
 from pydantic import BaseModel
 
+from enums import MeasurementUnit
+
 __all__ = ('InventoryStockItem', 'UnitInventoryStockItems')
 
 
 class InventoryStockItem(BaseModel):
     name: str
     quantity: float
-    measurement_unit: str
+    measurement_unit: MeasurementUnit
 
 
 class UnitInventoryStockItems(BaseModel):
