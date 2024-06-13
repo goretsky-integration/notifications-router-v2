@@ -23,7 +23,7 @@ class GlobalEvent(BaseModel):
 class SpecificUnitsEvent(BaseModel):
     type: EventType
     payload: Any
-    unit_ids: set[int]
+    unit_ids: UnitIdOrNameOrUUID | set[UnitIdOrNameOrUUID]
 
 
 class SpecificChatsEvent(BaseModel):
