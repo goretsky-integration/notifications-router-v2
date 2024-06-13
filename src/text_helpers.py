@@ -47,10 +47,10 @@ def abbreviate_unit_name(unit_name: str) -> str:
         ('москва', ''),
         ('подольск', 'П'),
     )
-    unit_name = unit_name.lower()
+    unit_name = unit_name
     for replaceable, replace_to in replacing_map:
-        if replaceable in unit_name:
-            return unit_name.replace(replaceable, replace_to).lstrip()
+        if replaceable in unit_name.lower():
+            return unit_name.lower().replace(replaceable, replace_to).lstrip()
     return unit_name
 
 
