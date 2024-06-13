@@ -6,6 +6,7 @@ from dependencies import get_telegram_bot, get_units_storage_connection
 from event_strategies import serialize_and_get_view
 from models import SpecificUnitsEvent
 from telegram import broadcast_message
+from units_resolver import resolve_unit_ids
 from units_storage import UnitsStorageConnection
 
 __all__ = ('router',)
@@ -23,8 +24,14 @@ async def on_specific_units_event(
         ),
 ):
     view = serialize_and_get_view(event)
+    units = await units_storage_connection.get_units()
 
-    for unit_id in event.unit_ids:
+    unit_ids = resolve_unit_ids(
+        units=units,
+        unit_ids=event.unit_ids,
+    )
+
+    for unit_id in unit_ids:
         report_type = await units_storage_connection.get_report_type_by_name(
             name=event.type,
         )
