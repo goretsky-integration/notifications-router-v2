@@ -4,9 +4,11 @@ from faststream.rabbit import RabbitRouter
 
 from dependencies import get_telegram_bot, get_units_storage_connection
 from event_strategies import serialize_and_get_view
-from models import GlobalEvent, SpecificChatsEvent, SpecificUnitsEvent
+from models import SpecificUnitsEvent
 from telegram import broadcast_message
 from units_storage import UnitsStorageConnection
+
+__all__ = ('router',)
 
 router = RabbitRouter()
 
@@ -35,16 +37,3 @@ async def on_specific_units_event(
             chat_ids=chat_ids,
             view=view,
         )
-
-
-@router.subscriber('specific-chats-event')
-async def on_specific_chats_event(
-        event: SpecificChatsEvent,
-        telegram_bot: Bot = Depends(get_telegram_bot, use_cache=False),
-):
-    view = serialize_and_get_view(event)
-    await broadcast_message(
-        bot=telegram_bot,
-        chat_ids=event.chat_ids,
-        view=view,
-    )
