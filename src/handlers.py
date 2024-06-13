@@ -48,11 +48,3 @@ async def on_specific_chats_event(
         chat_ids=event.chat_ids,
         view=view,
     )
-
-
-@router.subscriber('global-event')
-async def on_global_event(
-        event: GlobalEvent,
-        telegram_bot: Bot = Depends(get_telegram_bot, use_cache=True),
-):
-    pass
