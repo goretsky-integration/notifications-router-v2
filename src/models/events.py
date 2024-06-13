@@ -1,4 +1,5 @@
-from typing import Any
+from typing import Any, TypeAlias
+from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -8,7 +9,10 @@ __all__ = (
     'GlobalEvent',
     'SpecificChatsEvent',
     'SpecificUnitsEvent',
+    'UnitIdOrNameOrUUID',
 )
+
+UnitIdOrNameOrUUID: TypeAlias = int | str | UUID
 
 
 class GlobalEvent(BaseModel):
