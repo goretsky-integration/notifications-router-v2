@@ -21,7 +21,28 @@ structlog-sentry = "^2.1.0"
 [tool.poetry.group.dev.dependencies]
 factory-boy = "^3.3.0"
 pytest = "^8.1.1"
+pytest-cov = "^5.0.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "src",
+    "tests",
+]
+
+[tool.coverage.run]
+omit = [
+    "src/dependencies.py",
+    "src/handlers/*",
+    "src/models/*",
+    "src/enums/*",
+    "src/callback_data/*",
+    "src/config.py",
+    "src/**/__init__.py",
+    "src/main.py",
+    "src/logger.py"
+]

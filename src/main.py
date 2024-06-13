@@ -4,8 +4,8 @@ from fast_depends import Depends, inject
 from faststream import FastStream
 from faststream.rabbit import RabbitBroker
 
+import handlers
 from config import Config, get_config
-from handlers import router
 from logger import init_logging
 
 logger = structlog.get_logger('app')
@@ -29,4 +29,7 @@ def init_sentry(config: Config = Depends(get_config, use_cache=True)) -> None:
 broker = RabbitBroker('amqp://localhost:5672/', logger=logger)
 app = FastStream(broker, logger=logger)
 app.on_startup(on_startup)
-broker.include_router(router)
+broker.include_routers(
+    handlers.specific_chats.router,
+    handlers.specific_units.router,
+)
