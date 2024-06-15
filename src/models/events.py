@@ -9,10 +9,10 @@ __all__ = (
     'GlobalEvent',
     'SpecificChatsEvent',
     'SpecificUnitsEvent',
-    'UnitIdOrNameOrUUID',
+    'UnitIdOrUUID',
 )
 
-UnitIdOrNameOrUUID: TypeAlias = int | str | UUID
+UnitIdOrUUID: TypeAlias = int | UUID
 
 
 class GlobalEvent(BaseModel):
@@ -23,7 +23,7 @@ class GlobalEvent(BaseModel):
 class SpecificUnitsEvent(BaseModel):
     type: EventType
     payload: Any
-    unit_ids: UnitIdOrNameOrUUID | set[UnitIdOrNameOrUUID]
+    unit_ids: UnitIdOrUUID | set[UnitIdOrUUID]
 
 
 class SpecificChatsEvent(BaseModel):

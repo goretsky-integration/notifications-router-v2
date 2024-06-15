@@ -1,3 +1,4 @@
+import humanize
 import sentry_sdk
 import structlog
 from fast_depends import Depends, inject
@@ -9,6 +10,8 @@ from config import Config, get_config
 from logger import init_logging
 
 logger = structlog.get_logger('app')
+
+humanize.i18n.activate("ru_RU")
 
 
 def on_startup() -> None:

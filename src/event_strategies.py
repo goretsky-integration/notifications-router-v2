@@ -10,7 +10,7 @@ from models import (
     UnitDeliverySpeedStatistics,
     UnitInventoryStockItems,
     UnitLateDeliveryVouchers,
-    WriteOff,
+    UnitStopSalesByIngredients, WriteOff,
 )
 from views import (
     CheatedPhoneNumbersView,
@@ -27,6 +27,8 @@ __all__ = (
     'SPECIFIC_CHATS_EVENT_STRATEGIES',
     'serialize_and_get_view',
 )
+
+from views.unit_stop_sales_by_ingredients import UnitStopSalesByIngredientsView
 
 
 class ReceivesArbitraryArguments(Protocol):
@@ -69,6 +71,10 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
     EventType.CHEATED_PHONE_NUMBERS: {
         'view': CheatedPhoneNumbersView,
         'model': UnitCheatedOrders,
+    },
+    EventType.INGREDIENTS_STOP_SALES: {
+        'view': UnitStopSalesByIngredientsView,
+        'model': UnitStopSalesByIngredients,
     },
 }
 
