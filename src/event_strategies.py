@@ -12,6 +12,7 @@ from models import (
     UnitInventoryStockItems,
     UnitLateDeliveryVouchers,
     UnitStopSalesByIngredients,
+    UnitStopSalesBySectors, 
     WriteOff,
 )
 from views import (
@@ -31,7 +32,6 @@ __all__ = (
     'SPECIFIC_CHATS_EVENT_STRATEGIES',
     'serialize_and_get_view',
 )
-
 
 class ReceivesArbitraryArguments(Protocol):
 
@@ -77,6 +77,10 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
     EventType.INGREDIENTS_STOP_SALES: {
         'view': UnitStopSalesByIngredientsView,
         'model': UnitStopSalesByIngredients,
+    },
+    EventType.SECTOR_STOP_SALES: {
+        'view': UnitStopSalesBySectorsView,
+        'model': UnitStopSalesBySectors,
     },
     EventType.PIZZERIA_STOP_SALES: {
         'view': StopSaleBySalesChannelView,
