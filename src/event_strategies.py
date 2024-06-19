@@ -5,20 +5,25 @@ from pydantic import BaseModel, TypeAdapter
 from enums import EventType
 from models import (
     RevenueStatistics,
+    StopSaleBySalesChannel,
     UnitCanceledOrders,
     UnitCheatedOrders,
     UnitDeliverySpeedStatistics,
     UnitInventoryStockItems,
     UnitLateDeliveryVouchers,
-    UnitStopSalesByIngredients, UnitStopSalesBySectors, WriteOff,
+    UnitStopSalesByIngredients,
+    UnitStopSalesBySectors, 
+    WriteOff,
 )
 from views import (
     CheatedPhoneNumbersView,
     DeliverySpeedStatisticsView,
     LateDeliveryVouchersView,
     RevenueStatisticsView,
+    StopSaleBySalesChannelView,
     UnitCanceledOrdersView,
     UnitInventoryStockItemsView,
+    UnitStopSalesByIngredientsView,
     WriteOffView,
 )
 from views.base import View
@@ -27,11 +32,6 @@ __all__ = (
     'SPECIFIC_CHATS_EVENT_STRATEGIES',
     'serialize_and_get_view',
 )
-
-from views.stop_sales_by_sectors import UnitStopSalesBySectorsView
-
-from views.unit_stop_sales_by_ingredients import UnitStopSalesByIngredientsView
-
 
 class ReceivesArbitraryArguments(Protocol):
 
@@ -81,6 +81,10 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
     EventType.SECTOR_STOP_SALES: {
         'view': UnitStopSalesBySectorsView,
         'model': UnitStopSalesBySectors,
+    },
+    EventType.PIZZERIA_STOP_SALES: {
+        'view': StopSaleBySalesChannelView,
+        'model': StopSaleBySalesChannel,
     },
 }
 
