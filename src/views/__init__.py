@@ -5,5 +5,6 @@ from .inventory_stock_items import *
 from .late_delivery_vouchers import *
 from .revenue import *
 from .stop_sales_by_sales_channels import *
+from .stop_sales_by_sectors import *
 from .unit_stop_sales_by_ingredients import *
 from .write_offs import *

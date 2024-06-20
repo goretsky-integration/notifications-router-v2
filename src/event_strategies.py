@@ -12,7 +12,7 @@ from models import (
     UnitInventoryStockItems,
     UnitLateDeliveryVouchers,
     UnitStopSalesByIngredients,
-    UnitStopSalesBySectors, 
+    UnitStopSalesBySectors,
     WriteOff,
 )
 from views import (
@@ -25,6 +25,7 @@ from views import (
     UnitInventoryStockItemsView,
     UnitStopSalesByIngredientsView,
     WriteOffView,
+    UnitStopSalesBySectorsView,
 )
 from views.base import View
 
@@ -32,6 +33,8 @@ __all__ = (
     'SPECIFIC_CHATS_EVENT_STRATEGIES',
     'serialize_and_get_view',
 )
+
+
 
 class ReceivesArbitraryArguments(Protocol):
 
