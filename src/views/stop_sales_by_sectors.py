@@ -37,10 +37,6 @@ class UnitStopSalesBySectorsView(View):
                 f' - {humanized_duration}'
                 f' (с {stop_sale.started_at:%H:%M})'
             )
-
-            if is_urgent(duration):
-                line = f'❗️ {line} ❗️'
-
             lines.append(line)
 
         return '\n'.join(lines)
