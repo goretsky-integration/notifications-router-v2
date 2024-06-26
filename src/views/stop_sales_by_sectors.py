@@ -1,4 +1,10 @@
 from models import UnitStopSalesBySectors
+from sorters import sort_by_started_at_ascending_order
+from time_helpers import (
+    compute_duration,
+    humanize_stop_sale_duration,
+    is_urgent,
+)
 from views.base import View
 
 __all__ = ('UnitStopSalesBySectorsView',)
@@ -10,10 +16,31 @@ class UnitStopSalesBySectorsView(View):
         self.__unit_stop_sales_by_sectors = unit_stop_sales_by_sectors
 
     def get_text(self) -> str:
-        lines = [f'<b>{self.__unit_stop_sales_by_sectors.unit_name}</b>']
-        for stop_sale in self.__unit_stop_sales_by_sectors.stop_sales:
-            lines.append(
-                f'Сектор: {stop_sale.sector_name}'
-                f' - с {stop_sale.started_at:%H:%M}'
+        unit_name = self.__unit_stop_sales_by_sectors.unit_name
+        stop_sales = self.__unit_stop_sales_by_sectors.stop_sales
+
+        if len(stop_sales) == 1:
+            sector_singular_or_plural = 'сектор'
+        else:
+            sector_singular_or_plural = 'сектора'
+
+        sorted_stop_sales = sort_by_started_at_ascending_order(stop_sales)
+
+        lines = [f'<b>{unit_name} {sector_singular_or_plural} в стопе:</b>']
+
+        for stop_sale in sorted_stop_sales:
+            duration = compute_duration(stop_sale.started_at)
+            humanized_duration = humanize_stop_sale_duration(duration)
+
+            line = (
+                f'{stop_sale.sector_name}'
+                f' - {humanized_duration}'
+                f' (с {stop_sale.started_at:%H:%M})'
             )
+
+            if is_urgent(duration):
+                line = f'❗️ {line} ❗️'
+
+            lines.append(line)
+
         return '\n'.join(lines)

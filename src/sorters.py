@@ -4,6 +4,7 @@ from typing import Protocol, TypeVar
 __all__ = (
     'sort_by_created_at_descending_order',
     'sort_by_average_delivery_order_fulfillment_time',
+    'sort_by_started_at_ascending_order',
 )
 
 
@@ -26,6 +27,12 @@ def sort_by_created_at_descending_order(
         items: list[HasStartedAtT],
 ) -> list[HasStartedAtT]:
     return sorted(items, key=lambda item: item.started_at, reverse=True)
+
+
+def sort_by_started_at_ascending_order(
+        items: list[HasStartedAtT],
+) -> list[HasStartedAtT]:
+    return sorted(items, key=lambda item: item.started_at, reverse=False)
 
 
 def sort_by_average_delivery_order_fulfillment_time(
