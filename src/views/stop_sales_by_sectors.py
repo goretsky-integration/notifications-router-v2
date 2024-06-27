@@ -30,13 +30,17 @@ class UnitStopSalesBySectorsView(View):
 
         for stop_sale in sorted_stop_sales:
             duration = compute_duration(stop_sale.started_at)
-            humanized_duration = humanize_stop_sale_duration(duration)
+            humanized_duration = humanize_stop_sale_duration(duration)                
 
             line = (
                 f'{stop_sale.sector_name}'
                 f' - {humanized_duration}'
                 f' (с {stop_sale.started_at:%H:%M})'
             )
+            
+            if is_urgent(duration):
+                line = f'❗️ {line} ❗️'
+            
             lines.append(line)
 
         return '\n'.join(lines)
