@@ -13,6 +13,7 @@ from models import (
     UnitLateDeliveryVouchers,
     UnitStopSalesByIngredients,
     UnitStopSalesBySectors,
+    UnitUnprintedReceipts,
     WriteOff,
 )
 from views import (
@@ -24,8 +25,9 @@ from views import (
     UnitCanceledOrdersView,
     UnitInventoryStockItemsView,
     UnitStopSalesByIngredientsView,
-    WriteOffView,
     UnitStopSalesBySectorsView,
+    UnitUnprintedReceiptsView,
+    WriteOffView,
 )
 from views.base import View
 
@@ -33,7 +35,6 @@ __all__ = (
     'SPECIFIC_CHATS_EVENT_STRATEGIES',
     'serialize_and_get_view',
 )
-
 
 
 class ReceivesArbitraryArguments(Protocol):
@@ -88,6 +89,10 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
     EventType.PIZZERIA_STOP_SALES: {
         'view': StopSaleBySalesChannelView,
         'model': StopSaleBySalesChannel,
+    },
+    EventType.UNPRINTED_RECEIPTS: {
+        'view': UnitUnprintedReceiptsView,
+        'model': UnitUnprintedReceipts,
     },
 }
 
