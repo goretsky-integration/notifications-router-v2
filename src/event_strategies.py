@@ -62,7 +62,7 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
         'view': DeliverySpeedStatisticsView,
         'model': TypeAdapter(list[UnitDeliverySpeedStatistics]),
     },
-    EventType.STOPS_AND_RESUMES: {
+    EventType.INVENTORY_STOCKS: {
         'view': UnitInventoryStockItemsView,
         'model': UnitInventoryStockItems,
     },
