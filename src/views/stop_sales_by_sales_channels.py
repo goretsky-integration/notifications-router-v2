@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from enums import SalesChannel
+from enums import StopSaleSalesChannel
 from models import StopSaleBySalesChannel
 from time_helpers import (
     compute_duration,
@@ -10,9 +10,9 @@ from time_helpers import (
 from views.base import View
 
 SALES_CHANNEL_TO_NAME = {
-    SalesChannel.DINE_IN: 'Ресторан',
-    SalesChannel.TAKEAWAY: 'Самовывоз',
-    SalesChannel.DELIVERY: 'Доставка',
+    StopSaleSalesChannel.DINE_IN: 'Ресторан',
+    StopSaleSalesChannel.TAKEAWAY: 'Самовывоз',
+    StopSaleSalesChannel.DELIVERY: 'Доставка',
 }
 
 __all__ = (
