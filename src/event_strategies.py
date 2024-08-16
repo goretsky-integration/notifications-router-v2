@@ -9,7 +9,7 @@ from models import (
     UnitCanceledOrders,
     UnitCheatedOrders,
     UnitDeliverySpeedStatistics,
-    UnitInventoryStockItems,
+    UnitHeatedShelfStatistics, UnitInventoryStockItems,
     UnitLateDeliveryVouchers,
     UnitStopSalesByIngredients,
     UnitStopSalesBySectors,
@@ -19,7 +19,7 @@ from models import (
 from views import (
     CheatedPhoneNumbersView,
     DeliverySpeedStatisticsView,
-    LateDeliveryVouchersView,
+    HeatedShelfStatisticsView, LateDeliveryVouchersView,
     RevenueStatisticsView,
     StopSaleBySalesChannelView,
     UnitCanceledOrdersView,
@@ -93,6 +93,10 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: (
     EventType.UNPRINTED_RECEIPTS: {
         'view': UnitUnprintedReceiptsView,
         'model': UnitUnprintedReceipts,
+    },
+    EventType.HEATED_SHELF_STATISTICS: {
+        'view': HeatedShelfStatisticsView,
+        'model': TypeAdapter(list[UnitHeatedShelfStatistics]),
     },
 }
 
