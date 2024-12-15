@@ -1,4 +1,4 @@
-import humanize
+import humanize.i18n
 import sentry_sdk
 import structlog
 from fast_depends import Depends, inject
