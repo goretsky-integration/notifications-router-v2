@@ -4,12 +4,13 @@ from pydantic import BaseModel, TypeAdapter
 
 from enums import EventType
 from models import (
-    RevenueStatistics,
+    SalesStatistics,
     StopSaleBySalesChannel,
     UnitCanceledOrders,
     UnitCheatedOrders,
     UnitDeliverySpeedStatistics,
-    UnitHeatedShelfStatistics, UnitInventoryStockItems,
+    UnitHeatedShelfStatistics,
+    UnitInventoryStockItems,
     UnitLateDeliveryVouchers,
     UnitStopSalesByIngredients,
     UnitStopSalesBySectors,
@@ -19,8 +20,9 @@ from models import (
 from views import (
     CheatedPhoneNumbersView,
     DeliverySpeedStatisticsView,
-    HeatedShelfStatisticsView, LateDeliveryVouchersView,
-    RevenueStatisticsView,
+    HeatedShelfStatisticsView,
+    LateDeliveryVouchersView,
+    SalesStatisticsView,
     StopSaleBySalesChannelView,
     UnitCanceledOrdersView,
     UnitInventoryStockItemsView,
@@ -32,13 +34,12 @@ from views import (
 from views.base import View
 
 __all__ = (
-    'SPECIFIC_CHATS_EVENT_STRATEGIES',
-    'serialize_and_get_view',
+    "SPECIFIC_CHATS_EVENT_STRATEGIES",
+    "serialize_and_get_view",
 )
 
 
 class ReceivesArbitraryArguments(Protocol):
-
     def __init__(self, *args, **kwargs): ...
 
 
@@ -47,56 +48,54 @@ class SpecificChatsEventStrategy(TypedDict):
     model: BaseModel | TypeAdapter
 
 
-SPECIFIC_CHATS_EVENT_STRATEGIES: (
-    dict[EventType, SpecificChatsEventStrategy]
-) = {
+SPECIFIC_CHATS_EVENT_STRATEGIES: dict[EventType, SpecificChatsEventStrategy] = {
     EventType.LATE_DELIVERY_VOUCHERS: {
-        'view': LateDeliveryVouchersView,
-        'model': TypeAdapter(list[UnitLateDeliveryVouchers]),
+        "view": LateDeliveryVouchersView,
+        "model": TypeAdapter(list[UnitLateDeliveryVouchers]),
     },
     EventType.WRITE_OFFS: {
-        'view': WriteOffView,
-        'model': WriteOff,
+        "view": WriteOffView,
+        "model": WriteOff,
     },
     EventType.DELIVERY_SPEED: {
-        'view': DeliverySpeedStatisticsView,
-        'model': TypeAdapter(list[UnitDeliverySpeedStatistics]),
+        "view": DeliverySpeedStatisticsView,
+        "model": TypeAdapter(list[UnitDeliverySpeedStatistics]),
     },
     EventType.INVENTORY_STOCKS: {
-        'view': UnitInventoryStockItemsView,
-        'model': UnitInventoryStockItems,
+        "view": UnitInventoryStockItemsView,
+        "model": UnitInventoryStockItems,
     },
     EventType.CANCELED_ORDERS: {
-        'view': UnitCanceledOrdersView,
-        'model': UnitCanceledOrders,
+        "view": UnitCanceledOrdersView,
+        "model": UnitCanceledOrders,
     },
-    EventType.REVENUE_STATISTICS: {
-        'view': RevenueStatisticsView,
-        'model': RevenueStatistics,
+    EventType.SALES_STATISTICS: {
+        "view": SalesStatisticsView,
+        "model": SalesStatistics,
     },
     EventType.CHEATED_PHONE_NUMBERS: {
-        'view': CheatedPhoneNumbersView,
-        'model': UnitCheatedOrders,
+        "view": CheatedPhoneNumbersView,
+        "model": UnitCheatedOrders,
     },
     EventType.INGREDIENTS_STOP_SALES: {
-        'view': UnitStopSalesByIngredientsView,
-        'model': UnitStopSalesByIngredients,
+        "view": UnitStopSalesByIngredientsView,
+        "model": UnitStopSalesByIngredients,
     },
     EventType.SECTOR_STOP_SALES: {
-        'view': UnitStopSalesBySectorsView,
-        'model': UnitStopSalesBySectors,
+        "view": UnitStopSalesBySectorsView,
+        "model": UnitStopSalesBySectors,
     },
     EventType.PIZZERIA_STOP_SALES: {
-        'view': StopSaleBySalesChannelView,
-        'model': StopSaleBySalesChannel,
+        "view": StopSaleBySalesChannelView,
+        "model": StopSaleBySalesChannel,
     },
     EventType.UNPRINTED_RECEIPTS: {
-        'view': UnitUnprintedReceiptsView,
-        'model': UnitUnprintedReceipts,
+        "view": UnitUnprintedReceiptsView,
+        "model": UnitUnprintedReceipts,
     },
     EventType.HEATED_SHELF_STATISTICS: {
-        'view': HeatedShelfStatisticsView,
-        'model': TypeAdapter(list[UnitHeatedShelfStatistics]),
+        "view": HeatedShelfStatisticsView,
+        "model": TypeAdapter(list[UnitHeatedShelfStatistics]),
     },
 }
 
@@ -109,8 +108,8 @@ class HasTypeAndPayload(Protocol):
 def serialize_and_get_view(event: HasTypeAndPayload) -> View:
     strategy = SPECIFIC_CHATS_EVENT_STRATEGIES[event.type]
 
-    view = strategy['view']
-    model = strategy['model']
+    view = strategy["view"]
+    model = strategy["model"]
 
     if isinstance(model, TypeAdapter):
         payload = model.validate_python(event.payload)

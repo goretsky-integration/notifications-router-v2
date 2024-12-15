@@ -1,23 +1,25 @@
-from pydantic import BaseModel, conlist
+from typing import Annotated
+
+from pydantic import BaseModel, Field
 
 __all__ = (
-    'UnitRevenueStatistics',
-    'TotalRevenueStatistics',
-    'RevenueStatistics',
+    "UnitSalesStatistics",
+    "TotalSalesStatistics",
+    "SalesStatistics",
 )
 
 
-class UnitRevenueStatistics(BaseModel):
+class UnitSalesStatistics(BaseModel):
     unit_name: str
-    revenue_today: int
-    growth_from_week_before_in_percents: int
+    sales_for_today: int
+    sales_growth_from_week_before_in_percents: int
 
 
-class TotalRevenueStatistics(BaseModel):
-    revenue_today: int
-    growth_from_week_before_in_percents: int
+class TotalSalesStatistics(BaseModel):
+    sales_for_today: int
+    sales_growth_from_week_before_in_percents: int
 
 
-class RevenueStatistics(BaseModel):
-    units: conlist(UnitRevenueStatistics, min_length=1)
-    total: TotalRevenueStatistics
+class SalesStatistics(BaseModel):
+    units: Annotated[list[UnitSalesStatistics], Field(min_length=1)]
+    total: TotalSalesStatistics
