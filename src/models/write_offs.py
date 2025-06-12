@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel
 
 from enums import WriteOffType
@@ -9,4 +11,4 @@ class WriteOff(BaseModel):
     unit_name: str
     type: WriteOffType
     ingredient_name: str
-    checkbox_a1_coordinates: str
+    write_off_id: UUID

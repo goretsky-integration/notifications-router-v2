@@ -82,4 +82,4 @@ async def broadcast_message(
             attempts=attempts,
         )
         # Due to Telegram API limits (30 messages per second)
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(2)

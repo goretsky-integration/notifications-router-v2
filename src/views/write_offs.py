@@ -40,9 +40,8 @@ class WriteOffView(View):
 
     def get_reply_markup(self) -> InlineKeyboardMarkup:
         write_off_button_callback_data = WriteOffCallbackData(
-            unit_name=self.__write_off.unit_name,
-            checkbox_a1_coordinates=self.__write_off.checkbox_a1_coordinates,
-        ).pack()
+	    write_off_id=self.__write_off.write_off_id
+	).pack()
         write_off_button = InlineKeyboardButton(
             text='🗑️ Ингредиент списан',
             callback_data=write_off_button_callback_data,
