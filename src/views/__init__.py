@@ -10,3 +10,4 @@ from .stop_sales_by_sectors import *
 from .unit_stop_sales_by_ingredients import *
 from .unprinted_receipts import *
 from .write_offs import *
+from .customer_feedbacks import *
