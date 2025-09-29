@@ -16,6 +16,7 @@ from models import (
     UnitStopSalesBySectors,
     UnitUnprintedReceipts,
     WriteOff,
+    CustomerFeedback,
 )
 from views import (
     CheatedPhoneNumbersView,
@@ -30,6 +31,7 @@ from views import (
     UnitStopSalesBySectorsView,
     UnitUnprintedReceiptsView,
     WriteOffView,
+    CustomerFeedbackView,
 )
 from views.base import View
 
@@ -96,6 +98,10 @@ SPECIFIC_CHATS_EVENT_STRATEGIES: dict[EventType, SpecificChatsEventStrategy] = {
     EventType.HEATED_SHELF_STATISTICS: {
         "view": HeatedShelfStatisticsView,
         "model": TypeAdapter(list[UnitHeatedShelfStatistics]),
+    },
+    EventType.FEEDBACKS: {
+        "view": CustomerFeedbackView,
+        "model": CustomerFeedback,
     },
 }
 
